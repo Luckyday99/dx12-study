@@ -1,4 +1,4 @@
-# DirectX 12, Rendering Pipeline 공부
+# DirectX 12 실습을 통한 Rendering Pipeline 공부
 
 <br>
 
