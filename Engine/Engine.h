@@ -25,6 +25,8 @@ public:
 	shared_ptr<RootSignature> GetRootSignature() { return _rootSignature; }
 	shared_ptr<ConstantBuffer>	GetCstBuffer() { return _cstBuffer; };
 	shared_ptr<TableDescriptorHeap> GetTableDescHeap() { return _tableDescHeap; }
+	shared_ptr<Mesh> GetMesh() { return _mesh; }
+	shared_ptr<Shader> GetShader() { return _shader; }
 
 public:
 
@@ -45,5 +47,8 @@ private:
 	shared_ptr<RootSignature>		_rootSignature;
 	shared_ptr<ConstantBuffer>		_cstBuffer;
 	shared_ptr<TableDescriptorHeap> _tableDescHeap;
+
+	shared_ptr<Mesh>				_mesh;
+	shared_ptr<Shader>				_shader;
 };
 

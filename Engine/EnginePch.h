@@ -86,4 +86,6 @@ extern unique_ptr<class Engine> GEngine;
 #define DEVICE			GEngine->GetDevice()
 #define ROOT_SIGNATURE	GEngine->GetRootSignature()
 #define CMD_QUEUE		GEngine->GetCmdQueue()
+#define MESH			GEngine->GetMesh()
+#define SHADER			GEngine->GetShader()
 #define CMD_LIST		GEngine->GetCmdQueue()->GetCmdList()
