@@ -35,8 +35,6 @@ void Game::Init(const WindowInfo& window)
 
 	MESH->Init(vertex, index);
 
-	// SHADER->Init(L"..\\Resources\\Shader\\default.hlsli");
-
 	GEngine->GetCmdQueue()->WaitSync();
 }
 
