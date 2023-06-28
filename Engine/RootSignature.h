@@ -16,7 +16,12 @@ public:
 
 private:
 
-	ComPtr<ID3D12RootSignature> _signature;
+	void CreateSamplerDesc();
+	void CreateRootSignature(ComPtr<ID3D12Device> device);
 
+private:
+
+	D3D12_STATIC_SAMPLER_DESC	_samplerDesc;
+	ComPtr<ID3D12RootSignature> _signature;
 };
 

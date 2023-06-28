@@ -2,6 +2,8 @@
 
 // 정점으로 이루어진 물체
 
+class Texture;
+
 class Mesh
 {
 public:
@@ -10,6 +12,7 @@ public:
 	void Render();
 
 	void SetTransform(const Transform t) { _transform = t; }
+	void SetTexture(shared_ptr<Texture> texture) { _texture = texture; }
 
 private:
 
@@ -26,6 +29,7 @@ private:
 	D3D12_INDEX_BUFFER_VIEW		_indexBufferView;
 	uint32 _indexCount	= 0;
 
+	shared_ptr<Texture>				_texture = {};
 	Transform						_transform = {};
 };
 

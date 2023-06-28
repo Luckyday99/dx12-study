@@ -5,10 +5,12 @@
 #include "SwapChain.h"		// 더블 버퍼링(GPU의 연산 <-> 현재 화면 출력 번갈아가며 시행
 							// GPU에 요청시 View(리소스에 대한 설명)를 전송
 #include "RootSignature.h"
-#include "Mesh.h"
-#include "Shader.h"
 #include "ConstantBuffer.h"
 #include "TableDescriptorHeap.h"
+
+#include "Mesh.h"
+#include "Shader.h"
+#include "Texture.h"
 
 class Engine
 {

@@ -17,8 +17,6 @@ void Engine::Init(const WindowInfo& window)
 	_rootSignature = make_shared<RootSignature>();
 	_cstBuffer = make_shared<ConstantBuffer>();
 	_tableDescHeap = make_shared<TableDescriptorHeap>();
-	_mesh = make_shared<Mesh>();
-	_shader = make_shared<Shader>();
 
 	_device->Init();
 	_cmdQueue->Init(_device->GetDevice(), _swapChain);
@@ -26,23 +24,11 @@ void Engine::Init(const WindowInfo& window)
 	_rootSignature->Init(_device->GetDevice());
 	_cstBuffer->Init(sizeof(Transform), 256);
 	_tableDescHeap->Init(256);
-
-	_shader->Init(L"..\\Resources\\Shader\\default.hlsli");
 }
 
 void Engine::Render()
 {
 	RenderBegin();
-
-	_shader->Update();
-
-	{
-		Transform t;
-		t.offset = Vec4(0.f, 0.f, 0.f, 0.f);
-		_mesh->SetTransform(t);
-
-		_mesh->Render();
-	}
 
 	RenderEnd();
 }

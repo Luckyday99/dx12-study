@@ -18,7 +18,7 @@ public:
 private:
 
 	void CreateBuffer();
-	void CreateView();
+	void CreateCBV();
 
 private:
 

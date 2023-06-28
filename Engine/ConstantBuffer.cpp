@@ -25,7 +25,7 @@ void ConstantBuffer::Init(uint32 size, uint32 count)
 	_elementCount = count;
 
 	CreateBuffer();
-	CreateView();
+	CreateCBV();
 }
 
 void ConstantBuffer::CreateBuffer()
@@ -47,7 +47,7 @@ void ConstantBuffer::CreateBuffer()
 	// GPU가 버퍼 사용중일 때는 건들면 안됨(싱크를 맞춰라)
 }
 
-void ConstantBuffer::CreateView()
+void ConstantBuffer::CreateCBV()
 {
 	D3D12_DESCRIPTOR_HEAP_DESC cbvDesc = {};
 	cbvDesc.NumDescriptors = _elementCount;
