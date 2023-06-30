@@ -10,23 +10,28 @@ void Game::Init(const WindowInfo& window)
 {
 	GEngine->Init(window);
 
+	// Create Mesh
 	vector<Vertex> vertex(4);
-
-	vertex[0].pos = Vec3(-0.5f, 0.5f, 0.5f);
-	vertex[0].color = Vec4(1.f, 0.f, 0.f, 1.f);
-	vertex[0].uv = Vec2(0.f, 0.f);
-
+	{
+		vertex[0].pos = Vec3(-0.5f, 0.5f, 0.5f);
+		vertex[0].color = Vec4(1.f, 0.f, 0.f, 1.f);
+		vertex[0].uv = Vec2(0.f, 0.f);
+	}
+	{
 	vertex[1].pos = Vec3(0.5f, 0.5f, 0.5f);
 	vertex[1].color = Vec4(0.f, 1.f, 0.f, 1.f);
 	vertex[1].uv = Vec2(1.f, 0.f);
-
+	}
+	{
 	vertex[2].pos = Vec3(0.5f, -0.5f, 0.5f);
 	vertex[2].color = Vec4(0.f, 0.f, 1.f, 1.f);
 	vertex[2].uv = Vec2(1.f, 1.f);
-
+	}
+	{
 	vertex[3].pos = Vec3(-0.5f, -0.5f, 0.5f);
 	vertex[3].color = Vec4(0.f, 1.f, 0.f, 1.f);
 	vertex[3].uv = Vec2(0.f, 1.f);
+	}
 
 	vector<uint32> index;
 	{
@@ -52,11 +57,22 @@ void Game::Update()
 {
 	GEngine->RenderBegin();
 
+	// 렌더링 할 내용
+
 	shader->Update();
 
 	{
 		Transform t;
-		t.offset = Vec4(0.f, 0.f, 0.f, 0.f);
+		t.offset = Vec4(0.25f, 0.25f, 0.1f, 0.f);
+		mesh->SetTransform(t);
+
+		mesh->SetTexture(texture);
+
+		mesh->Render();
+	}
+	{
+		Transform t;
+		t.offset = Vec4(-0.25f, -0.25f, 0.f, 0.f);
 		mesh->SetTransform(t);
 
 		mesh->SetTexture(texture);

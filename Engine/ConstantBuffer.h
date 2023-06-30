@@ -13,7 +13,7 @@ public:
 	D3D12_CPU_DESCRIPTOR_HANDLE PushData(int32 rootParamIndex, void* buffer, uint32 size);
 
 	D3D12_GPU_VIRTUAL_ADDRESS GetGpuVirtualAddress(uint32 index);
-	D3D12_CPU_DESCRIPTOR_HANDLE GetCpuHandle(uint32 index);
+	D3D12_CPU_DESCRIPTOR_HANDLE GetCbvCpuHandle(uint32 index);
 
 private:
 

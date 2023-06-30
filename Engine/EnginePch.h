@@ -84,6 +84,17 @@ enum class SRV_REGISTER : REGESTER_TYPE
 	END
 };
 
+enum class DSV_REGISTER : REGESTER_TYPE
+{
+	t0 = static_cast<REGESTER_TYPE>(SRV_REGISTER::END),
+	t1,
+	t2,
+	t3,
+	t4,
+
+	END
+};
+
 enum
 {
 	SWAP_CHAIN_BUFFER_COUNT = 2,

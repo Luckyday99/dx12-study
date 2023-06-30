@@ -82,10 +82,17 @@ void CommandQueue::RenderBegin(const D3D12_VIEWPORT* vp, const D3D12_RECT* rect)
 	_cmdList->RSSetViewports(1, vp);
 	_cmdList->RSSetScissorRects(1, rect);
 
+	// 출력 병합기 (OutPut Merge)
+
 	// Specify the buffers we are going to render to.
 	D3D12_CPU_DESCRIPTOR_HANDLE backBufferView = _swapChain->GetBackRTV();
+	D3D12_CPU_DESCRIPTOR_HANDLE depthStrencilView = GEngine->GetDSBuffer()->GetDsvCpuHandle();
 	_cmdList->ClearRenderTargetView(backBufferView, Colors::LightSteelBlue, 0, nullptr);
-	_cmdList->OMSetRenderTargets(1, &backBufferView, FALSE, nullptr);
+
+	_cmdList->OMSetRenderTargets(1, &backBufferView, FALSE, &depthStrencilView);
+
+	_cmdList->ClearDepthStencilView(depthStrencilView, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
+	
 }
 
 void CommandQueue::RenderEnd()

@@ -7,6 +7,7 @@
 #include "RootSignature.h"
 #include "ConstantBuffer.h"
 #include "TableDescriptorHeap.h"
+#include "DepthStencilBuffer.h"
 
 #include "Mesh.h"
 #include "Shader.h"
@@ -26,6 +27,7 @@ public:
 	shared_ptr<SwapChain> GetSwapChain() { return _swapChain; }
 	shared_ptr<RootSignature> GetRootSignature() { return _rootSignature; }
 	shared_ptr<ConstantBuffer>	GetCstBuffer() { return _cstBuffer; };
+	shared_ptr<DepthStencilBuffer> GetDSBuffer() { return _dsBuffer; };
 	shared_ptr<TableDescriptorHeap> GetTableDescHeap() { return _tableDescHeap; }
 	shared_ptr<Mesh> GetMesh() { return _mesh; }
 	shared_ptr<Shader> GetShader() { return _shader; }
@@ -49,6 +51,7 @@ private:
 	shared_ptr<RootSignature>		_rootSignature;
 	shared_ptr<ConstantBuffer>		_cstBuffer;
 	shared_ptr<TableDescriptorHeap> _tableDescHeap;
+	shared_ptr<DepthStencilBuffer>	_dsBuffer;
 
 	shared_ptr<Mesh>				_mesh;
 	shared_ptr<Shader>				_shader;

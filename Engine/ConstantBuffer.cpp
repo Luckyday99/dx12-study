@@ -60,7 +60,7 @@ void ConstantBuffer::CreateCBV()
 
 	for (uint32 i = 0; i < _elementCount; ++i)
 	{
-		D3D12_CPU_DESCRIPTOR_HANDLE cbvHandle = GetCpuHandle(i);
+		D3D12_CPU_DESCRIPTOR_HANDLE cbvHandle = GetCbvCpuHandle(i);
 
 		D3D12_CONSTANT_BUFFER_VIEW_DESC cbvDesc = {};
 		cbvDesc.BufferLocation = _cbvBuffer->GetGPUVirtualAddress() + static_cast<uint64>(_elementSize) * i;
@@ -82,7 +82,7 @@ D3D12_CPU_DESCRIPTOR_HANDLE ConstantBuffer::PushData(int32 rootParamIndex, void*
 
 	::memcpy(&_mappedBuffer[_currentIndex * _elementSize], buffer, size);
 
-	D3D12_CPU_DESCRIPTOR_HANDLE cpuHandle = GetCpuHandle(_currentIndex);
+	D3D12_CPU_DESCRIPTOR_HANDLE cpuHandle = GetCbvCpuHandle(_currentIndex);
 
 	_currentIndex++;
 
@@ -97,7 +97,7 @@ D3D12_GPU_VIRTUAL_ADDRESS ConstantBuffer::GetGpuVirtualAddress(uint32 index)
 	return objCBAddress;
 }
 
-D3D12_CPU_DESCRIPTOR_HANDLE ConstantBuffer::GetCpuHandle(uint32 index)
+D3D12_CPU_DESCRIPTOR_HANDLE ConstantBuffer::GetCbvCpuHandle(uint32 index)
 {
 	return CD3DX12_CPU_DESCRIPTOR_HANDLE(_cpuHandleBegin, index * _handleIncrementSize);
 }
