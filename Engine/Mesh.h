@@ -2,17 +2,18 @@
 
 // 정점으로 이루어진 물체
 
-class Texture;
+class Material;
 
 class Mesh
 {
 public:
 
 	void Init(const vector<Vertex>& vertexBuffer, const vector<uint32>& indexBuffer);
-	void Render();
 
-	void SetTransform(const Transform t) { _transform = t; }
-	void SetTexture(shared_ptr<Texture> texture) { _texture = texture; }
+	void SetTransform(const Transform transform) { _transform = transform; }
+	void SetMaterial(shared_ptr<Material> material) { _material = material; }
+
+	void Render();
 
 private:
 
@@ -34,7 +35,7 @@ private:
 	uint32 _indexCount	= 0;
 	uint32 _indexSize = 0;
 
-	shared_ptr<Texture>				_texture = {};
+	shared_ptr<Material>			_material = {};
 	Transform						_transform = {};
 };
 

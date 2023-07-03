@@ -9,6 +9,7 @@
 #include "TableDescriptorHeap.h"
 #include "DepthStencilBuffer.h"
 
+#include "Material.h"
 #include "Mesh.h"
 #include "Shader.h"
 #include "Texture.h"
@@ -33,9 +34,9 @@ public:
 	shared_ptr<CommandQueue> GetCmdQueue() { return _cmdQueue; }
 	shared_ptr<SwapChain> GetSwapChain() { return _swapChain; }
 	shared_ptr<RootSignature> GetRootSignature() { return _rootSignature; }
-	shared_ptr<ConstantBuffer>	GetCstBuffer() { return _cstBuffer; }
 	shared_ptr<DepthStencilBuffer> GetDSBuffer() { return _dsBuffer; }
 	shared_ptr<TableDescriptorHeap> GetTableDescHeap() { return _tableDescHeap; }
+	shared_ptr<ConstantBuffer>	GetCstBuffer(CONSTANT_BUFFER_TYPE type) { return _cstBuffers[static_cast<uint8>(type)]; }
 
 	shared_ptr<Timer> GetTimer() { return _timer; }
 
@@ -48,6 +49,7 @@ public:
 
 private:
 
+	void CreateConstantBuffer(CBV_REGISTER reg, uint32 bufferSize, uint32 count);
 	void ShowFps();
 
 private:
@@ -60,14 +62,12 @@ private:
 	shared_ptr<CommandQueue>		_cmdQueue = make_shared<CommandQueue>();
 	shared_ptr<SwapChain>			_swapChain = make_shared<SwapChain>();
 	shared_ptr<RootSignature>		_rootSignature = make_shared<RootSignature>();
-	shared_ptr<ConstantBuffer>		_cstBuffer = make_shared<ConstantBuffer>();
+	vector<shared_ptr<ConstantBuffer>>		_cstBuffers = {};
 	shared_ptr<TableDescriptorHeap> _tableDescHeap = make_shared<TableDescriptorHeap>();
 	shared_ptr<DepthStencilBuffer>	_dsBuffer = make_shared<DepthStencilBuffer>();
 
-	shared_ptr<Mesh> _mesh = make_shared<Mesh>();
-	shared_ptr<Shader> _shader = make_shared<Shader>();
-	shared_ptr<Texture> _texture = make_shared<Texture>();
-
 	shared_ptr<Timer>	_timer = make_shared<Timer>();
+
+	shared_ptr<Mesh> _mesh = make_shared<Mesh>();
 };
 

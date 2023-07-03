@@ -19,7 +19,7 @@ public:
 
 private:
 
-	D3D12_CPU_DESCRIPTOR_HANDLE GetCPUHandle(REGESTER_TYPE reg);
+	D3D12_CPU_DESCRIPTOR_HANDLE GetCPUHandle(REGISTER_TYPE reg);
 
 private:
 

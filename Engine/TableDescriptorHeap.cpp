@@ -51,15 +51,15 @@ void TableDescriptorHeap::CommitTable()
 
 D3D12_CPU_DESCRIPTOR_HANDLE TableDescriptorHeap::GetCPUHandle(CBV_REGISTER reg)
 {
-	return GetCPUHandle(static_cast<REGESTER_TYPE>(reg));
+	return GetCPUHandle(static_cast<REGISTER_TYPE>(reg));
 }
 
 D3D12_CPU_DESCRIPTOR_HANDLE TableDescriptorHeap::GetCPUHandle(SRV_REGISTER reg)
 {
-	return GetCPUHandle(static_cast<REGESTER_TYPE>(reg));
+	return GetCPUHandle(static_cast<REGISTER_TYPE>(reg));
 }
 
-D3D12_CPU_DESCRIPTOR_HANDLE TableDescriptorHeap::GetCPUHandle(REGESTER_TYPE reg)
+D3D12_CPU_DESCRIPTOR_HANDLE TableDescriptorHeap::GetCPUHandle(REGISTER_TYPE reg)
 {
 	D3D12_CPU_DESCRIPTOR_HANDLE handle = _descHeap->GetCPUDescriptorHandleForHeapStart();
 	handle.ptr += _currentGroupIndex * _groupSize;

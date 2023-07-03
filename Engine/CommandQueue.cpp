@@ -70,7 +70,8 @@ void CommandQueue::RenderBegin(const D3D12_VIEWPORT* vp, const D3D12_RECT* rect)
 		D3D12_RESOURCE_STATE_RENDER_TARGET);	// 외주 결과물
 
 	_cmdList->SetGraphicsRootSignature(ROOT_SIGNATURE->GetSignature().Get());
-	GENGINE->GetCstBuffer()->Clear();
+	GENGINE->GetCstBuffer(CONSTANT_BUFFER_TYPE::TRANSFORM)->Clear();
+	GENGINE->GetCstBuffer(CONSTANT_BUFFER_TYPE::MATERIAL)->Clear();
 	GENGINE->GetTableDescHeap()->Clear();
 
 	ID3D12DescriptorHeap* descHeap = GENGINE->GetTableDescHeap()->GetDescriptorHeap().Get();

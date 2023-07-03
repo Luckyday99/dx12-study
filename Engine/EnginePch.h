@@ -60,9 +60,9 @@ using Vec3		= XMFLOAT3;
 using Vec4		= XMFLOAT4;
 using Matrix	= XMMATRIX;
 
-using REGESTER_TYPE = uint8;
+using REGISTER_TYPE = uint8;
 
-enum class CBV_REGISTER : REGESTER_TYPE
+enum class CBV_REGISTER : REGISTER_TYPE
 {
 	b0,
 	b1,
@@ -73,9 +73,9 @@ enum class CBV_REGISTER : REGESTER_TYPE
 	END
 };
 
-enum class SRV_REGISTER : REGESTER_TYPE
+enum class SRV_REGISTER : REGISTER_TYPE
 {
-	t0 = static_cast<REGESTER_TYPE>(CBV_REGISTER::END),
+	t0 = static_cast<REGISTER_TYPE>(CBV_REGISTER::END),
 	t1,
 	t2,
 	t3,
@@ -88,7 +88,7 @@ enum
 {
 	SWAP_CHAIN_BUFFER_COUNT = 2,
 	CBV_REGISTER_COUNT = CBV_REGISTER::END,
-	SRV_REGISTER_COUNT = static_cast<REGESTER_TYPE>(SRV_REGISTER::END) - CBV_REGISTER_COUNT,
+	SRV_REGISTER_COUNT = static_cast<REGISTER_TYPE>(SRV_REGISTER::END) - CBV_REGISTER_COUNT,
 	REGISTER_COUNT = CBV_REGISTER_COUNT + SRV_REGISTER_COUNT
 };
 
@@ -115,9 +115,11 @@ struct Transform
 extern unique_ptr<class Engine> GENGINE;
 extern unique_ptr<class Input>	GINPUT;
 
-#define DEVICE			GENGINE->GetDevice()
-#define ROOT_SIGNATURE	GENGINE->GetRootSignature()
-#define CMD_QUEUE		GENGINE->GetCmdQueue()
+#define DEVICE					GENGINE->GetDevice()
+#define ROOT_SIGNATURE			GENGINE->GetRootSignature()
+#define CMD_QUEUE				GENGINE->GetCmdQueue()
 
-#define CMD_LIST		GENGINE->GetCmdQueue()->GetCmdList()
-#define DELTA_TIME		GENGINE->GetTimer()->GetDeltaTime()
+#define CMD_LIST				GENGINE->GetCmdQueue()->GetCmdList()
+#define DELTA_TIME				GENGINE->GetTimer()->GetDeltaTime()
+
+#define CONSTANT_BUFFER(type)	GENGINE->GetCstBuffer(type)

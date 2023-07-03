@@ -15,29 +15,6 @@ void Mesh::Init(const vector<Vertex>& vertexBuffer, const vector<uint32>& indexB
 	CreateIBV();
 }
 
-
-void Mesh::Render()
-{
-	CMD_LIST->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-	CMD_LIST->IASetVertexBuffers(0, 1, &_vertexBufferView); // Slot: (0~15)
-	CMD_LIST->IASetIndexBuffer(&_indexBufferView);
-
-	// Buffer에 데이터 세팅
-	// TableDescHeap에 CBV 전송
-	// 세팅 후 TableDescHeap 커밋
-
-	{
-		D3D12_CPU_DESCRIPTOR_HANDLE cpuHandle = GENGINE->GetCstBuffer()->PushData(0, &_transform, sizeof(_transform));
-		GENGINE->GetTableDescHeap()->SetCBV(cpuHandle, CBV_REGISTER::b0);
-
-		GENGINE->GetTableDescHeap()->SetSRV(_texture->GetCpuHandle(), SRV_REGISTER::t0);
-	}
-
-	GENGINE->GetTableDescHeap()->CommitTable();
-
-	CMD_LIST->DrawIndexedInstanced(_indexCount, 1, 0, 0, 0); // Instancing? 시 수정
-}
-
 void Mesh::CreateVBVBuffer(const vector<Vertex>& vertexBuffer)
 {
 	// GPU에 메모리 할당 요청
@@ -95,4 +72,26 @@ void Mesh::CreateIBV()
 	_indexBufferView.BufferLocation = _indexBuffer->GetGPUVirtualAddress();
 	_indexBufferView.Format = DXGI_FORMAT_R32_UINT;
 	_indexBufferView.SizeInBytes = _indexSize;
+}
+
+
+void Mesh::Render()
+{
+	CMD_LIST->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	CMD_LIST->IASetVertexBuffers(0, 1, &_vertexBufferView); // Slot: (0~15)
+	CMD_LIST->IASetIndexBuffer(&_indexBufferView);
+
+	// Buffer에 데이터 세팅
+	// TableDescHeap에 CBV 전송
+	// 세팅 후 TableDescHeap 커밋
+
+	{
+		CONSTANT_BUFFER(CONSTANT_BUFFER_TYPE::MATERIAL)->PushData(&_transform, sizeof(_transform));
+
+		_material->Update();
+	}
+
+	GENGINE->GetTableDescHeap()->CommitTable();
+
+	CMD_LIST->DrawIndexedInstanced(_indexCount, 1, 0, 0, 0); // Instancing? 시 수정
 }

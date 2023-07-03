@@ -15,11 +15,13 @@ void Engine::Init(const WindowInfo& window)
 	_cmdQueue->Init(_device->GetDevice(), _swapChain);
 	_swapChain->Init(window, _device->GetDevice(), _device->GetDXGI(), _cmdQueue->GetCmdQueue());
 	_rootSignature->Init(_device->GetDevice());
-	_cstBuffer->Init(sizeof(Transform), 256);
 	_dsBuffer->Init(window);
 	_tableDescHeap->Init(256);
 
 	_timer->Init();
+
+	CreateConstantBuffer(CBV_REGISTER::b0, sizeof(Transform), 256);
+	CreateConstantBuffer(CBV_REGISTER::b1, sizeof(MaterialParams), 256);
 
 	// Create Mesh
 	vector<Vertex> vertex(4);
@@ -57,9 +59,19 @@ void Engine::Init(const WindowInfo& window)
 	}
 
 	_mesh->Init(vertex, index);
-	_texture->Init(L"..\\Resources\\Texture\\Kitty.jpg");
 
-	_shader->Init(L"..\\Resources\\Shader\\default.hlsli");
+	shared_ptr<Shader> shader = make_shared<Shader>();
+	shared_ptr<Texture> texture = make_shared<Texture>();
+	shader->Init(L"..\\Resources\\Shader\\default.hlsli");
+	texture->Init(L"..\\Resources\\Texture\\Kitty.jpg");
+
+	shared_ptr<Material> material = make_shared<Material>();
+	material->SetShader(shader);
+	material->SetFloat(0, 0.3f);
+	material->SetFloat(1, 0.4f);
+	material->SetFloat(2, 0.3f);
+	material->SetTexture(0, texture);
+	_mesh->SetMaterial(material);
 
 	GENGINE->GetCmdQueue()->WaitSync();
 
@@ -71,8 +83,6 @@ void Engine::Render()
 	RenderBegin();
 
 	// 렌더링 할 내용
-
-	_shader->Update();
 
 	{
 		static Transform t;
@@ -88,8 +98,6 @@ void Engine::Render()
 			t.offset.x -= speed * DELTA_TIME;
 
 		_mesh->SetTransform(t);
-
-		_mesh->SetTexture(_texture);
 
 		_mesh->Render();
 	}
@@ -125,6 +133,16 @@ void Engine::RenderBegin()
 void Engine::RenderEnd()
 {
 	_cmdQueue->RenderEnd();
+}
+
+void Engine::CreateConstantBuffer(CBV_REGISTER reg, uint32 bufferSize, uint32 count)
+{
+	uint8 typeint = static_cast<REGISTER_TYPE>(reg);
+	assert(_cstBuffers.size() == typeint);
+
+	shared_ptr<ConstantBuffer> cstBuffer = make_shared<ConstantBuffer>();
+	cstBuffer->Init(reg, bufferSize, count);
+	_cstBuffers.push_back(cstBuffer);
 }
 
 void Engine::ShowFps()
