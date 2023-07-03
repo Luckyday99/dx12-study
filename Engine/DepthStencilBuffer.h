@@ -9,6 +9,10 @@ public:
 	D3D12_CPU_DESCRIPTOR_HANDLE GetDsvCpuHandle() { return _dsvHandle; }
 	DXGI_FORMAT GetDSVFormat() { return _dsvFormat; }
 
+private:
+
+	void CreateDSVBuffer(const WindowInfo& window, DXGI_FORMAT dsvFormat);
+	void CreateDSV();
 
 private:
 	ComPtr<ID3D12Resource>				_dsvBuffer;

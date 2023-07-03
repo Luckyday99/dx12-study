@@ -70,10 +70,10 @@ void CommandQueue::RenderBegin(const D3D12_VIEWPORT* vp, const D3D12_RECT* rect)
 		D3D12_RESOURCE_STATE_RENDER_TARGET);	// 외주 결과물
 
 	_cmdList->SetGraphicsRootSignature(ROOT_SIGNATURE->GetSignature().Get());
-	GEngine->GetCstBuffer()->Clear();
-	GEngine->GetTableDescHeap()->Clear();
+	GENGINE->GetCstBuffer()->Clear();
+	GENGINE->GetTableDescHeap()->Clear();
 
-	ID3D12DescriptorHeap* descHeap = GEngine->GetTableDescHeap()->GetDescriptorHeap().Get();
+	ID3D12DescriptorHeap* descHeap = GENGINE->GetTableDescHeap()->GetDescriptorHeap().Get();
 	_cmdList->SetDescriptorHeaps(1, &descHeap);
 
 	_cmdList->ResourceBarrier(1, &barrier);
@@ -86,7 +86,7 @@ void CommandQueue::RenderBegin(const D3D12_VIEWPORT* vp, const D3D12_RECT* rect)
 
 	// Specify the buffers we are going to render to.
 	D3D12_CPU_DESCRIPTOR_HANDLE backBufferView = _swapChain->GetBackRTV();
-	D3D12_CPU_DESCRIPTOR_HANDLE depthStrencilView = GEngine->GetDSBuffer()->GetDsvCpuHandle();
+	D3D12_CPU_DESCRIPTOR_HANDLE depthStrencilView = GENGINE->GetDSBuffer()->GetDsvCpuHandle();
 	_cmdList->ClearRenderTargetView(backBufferView, Colors::LightSteelBlue, 0, nullptr);
 
 	_cmdList->OMSetRenderTargets(1, &backBufferView, FALSE, &depthStrencilView);

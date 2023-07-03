@@ -17,7 +17,7 @@ public:
 
 private:
 
-	void CreateBuffer();
+	void CreateCBVBuffer();
 	void CreateCBV();
 
 private:

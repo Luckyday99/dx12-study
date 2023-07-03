@@ -84,17 +84,6 @@ enum class SRV_REGISTER : REGESTER_TYPE
 	END
 };
 
-enum class DSV_REGISTER : REGESTER_TYPE
-{
-	t0 = static_cast<REGESTER_TYPE>(SRV_REGISTER::END),
-	t1,
-	t2,
-	t3,
-	t4,
-
-	END
-};
-
 enum
 {
 	SWAP_CHAIN_BUFFER_COUNT = 2,
@@ -123,10 +112,12 @@ struct Transform
 	Vec4 offset;
 };
 
-extern unique_ptr<class Engine> GEngine;
+extern unique_ptr<class Engine> GENGINE;
+extern unique_ptr<class Input>	GINPUT;
 
-#define DEVICE			GEngine->GetDevice()
-#define ROOT_SIGNATURE	GEngine->GetRootSignature()
-#define CMD_QUEUE		GEngine->GetCmdQueue()
+#define DEVICE			GENGINE->GetDevice()
+#define ROOT_SIGNATURE	GENGINE->GetRootSignature()
+#define CMD_QUEUE		GENGINE->GetCmdQueue()
 
-#define CMD_LIST		GEngine->GetCmdQueue()->GetCmdList()
+#define CMD_LIST		GENGINE->GetCmdQueue()->GetCmdList()
+#define DELTA_TIME		GENGINE->GetTimer()->GetDeltaTime()

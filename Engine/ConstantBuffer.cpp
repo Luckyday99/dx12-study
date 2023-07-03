@@ -24,11 +24,11 @@ void ConstantBuffer::Init(uint32 size, uint32 count)
 	_elementSize = (size + 255) & ~255; // ¹Ý¿Ã¸²
 	_elementCount = count;
 
-	CreateBuffer();
+	CreateCBVBuffer();
 	CreateCBV();
 }
 
-void ConstantBuffer::CreateBuffer()
+void ConstantBuffer::CreateCBVBuffer()
 {
 	uint32 bufferSize = _elementSize * _elementCount;
 	D3D12_HEAP_PROPERTIES heapProperty = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);

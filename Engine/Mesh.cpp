@@ -4,8 +4,15 @@
 
 void Mesh::Init(const vector<Vertex>& vertexBuffer, const vector<uint32>& indexBuffer)
 {
-	CreateVertexBuffer(vertexBuffer);
-	CreateIndexBuffer(indexBuffer);
+	_vertexCount = static_cast<uint32>(vertexBuffer.size());
+	_vertexSize = _vertexCount * sizeof(Vertex);
+	_indexCount = static_cast<uint32>(indexBuffer.size());
+	_indexSize = _indexCount * sizeof(uint32);
+
+	CreateVBVBuffer(vertexBuffer);
+	CreateVBV();
+	CreateIBVBuffer(indexBuffer);
+	CreateIBV();
 }
 
 
@@ -20,25 +27,22 @@ void Mesh::Render()
 	// 세팅 후 TableDescHeap 커밋
 
 	{
-		D3D12_CPU_DESCRIPTOR_HANDLE cpuHandle = GEngine->GetCstBuffer()->PushData(0, &_transform, sizeof(_transform));
-		GEngine->GetTableDescHeap()->SetCBV(cpuHandle, CBV_REGISTER::b0);
+		D3D12_CPU_DESCRIPTOR_HANDLE cpuHandle = GENGINE->GetCstBuffer()->PushData(0, &_transform, sizeof(_transform));
+		GENGINE->GetTableDescHeap()->SetCBV(cpuHandle, CBV_REGISTER::b0);
 
-		GEngine->GetTableDescHeap()->SetSRV(_texture->GetCpuHandle(), SRV_REGISTER::t0);
+		GENGINE->GetTableDescHeap()->SetSRV(_texture->GetCpuHandle(), SRV_REGISTER::t0);
 	}
 
-	GEngine->GetTableDescHeap()->CommitTable();
+	GENGINE->GetTableDescHeap()->CommitTable();
 
 	CMD_LIST->DrawIndexedInstanced(_indexCount, 1, 0, 0, 0); // Instancing? 시 수정
 }
 
-void Mesh::CreateVertexBuffer(const vector<Vertex>& vertexBuffer)
+void Mesh::CreateVBVBuffer(const vector<Vertex>& vertexBuffer)
 {
-	_vertexCount = static_cast<uint32>(vertexBuffer.size());
-	uint32 bufferSize = _vertexCount * sizeof(Vertex);
-
 	// GPU에 메모리 할당 요청
 	D3D12_HEAP_PROPERTIES heapProperty = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD); // Upload / Default type 분리 or Upload type 공용으로 사용
-	D3D12_RESOURCE_DESC desc = CD3DX12_RESOURCE_DESC::Buffer(bufferSize);
+	D3D12_RESOURCE_DESC desc = CD3DX12_RESOURCE_DESC::Buffer(_vertexSize);
 
 	DEVICE->GetDevice()->CreateCommittedResource(
 		&heapProperty,
@@ -53,22 +57,22 @@ void Mesh::CreateVertexBuffer(const vector<Vertex>& vertexBuffer)
 	CD3DX12_RANGE readRange(0, 0); // We do not intend to read from this resource on the CPU.
 	// Ram 공간 -> GPU 공간으로 전달 -> unmap
 	_vertexBuffer->Map(0, &readRange, &vertexDataBuffer);
-	::memcpy(vertexDataBuffer, &vertexBuffer[0], bufferSize);
+	::memcpy(vertexDataBuffer, &vertexBuffer[0], _vertexSize);
 	_vertexBuffer->Unmap(0, nullptr);
+}
 
+void Mesh::CreateVBV()
+{
 	// Initialize the vertex buffer view.
 	_vertexBufferView.BufferLocation = _vertexBuffer->GetGPUVirtualAddress();
 	_vertexBufferView.StrideInBytes = sizeof(Vertex); // 정점 1개 크기
-	_vertexBufferView.SizeInBytes = bufferSize; // 버퍼의 크기	
+	_vertexBufferView.SizeInBytes = _vertexSize; // 버퍼의 크기	
 }
 
-void Mesh::CreateIndexBuffer(const vector<uint32>& indexBuffer)
+void Mesh::CreateIBVBuffer(const vector<uint32>& indexBuffer)
 {
-	_indexCount = static_cast<uint32>(indexBuffer.size());
-	uint32 bufferSize = _indexCount * sizeof(uint32);
-
 	D3D12_HEAP_PROPERTIES heapProperty = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD); // Upload / Default
-	D3D12_RESOURCE_DESC desc = CD3DX12_RESOURCE_DESC::Buffer(bufferSize);
+	D3D12_RESOURCE_DESC desc = CD3DX12_RESOURCE_DESC::Buffer(_indexSize);
 
 	DEVICE->GetDevice()->CreateCommittedResource(
 		&heapProperty,
@@ -82,10 +86,13 @@ void Mesh::CreateIndexBuffer(const vector<uint32>& indexBuffer)
 	void* indexDataBuffer = nullptr;
 	CD3DX12_RANGE readRange(0, 0); // We do not intend to read from this resource on the CPU.
 	_indexBuffer->Map(0, &readRange, &indexDataBuffer);
-	::memcpy(indexDataBuffer, &indexBuffer[0], bufferSize);
+	::memcpy(indexDataBuffer, &indexBuffer[0], _indexSize);
 	_indexBuffer->Unmap(0, nullptr);
+}
 
+void Mesh::CreateIBV()
+{
 	_indexBufferView.BufferLocation = _indexBuffer->GetGPUVirtualAddress();
 	_indexBufferView.Format = DXGI_FORMAT_R32_UINT;
-	_indexBufferView.SizeInBytes = bufferSize;
+	_indexBufferView.SizeInBytes = _indexSize;
 }
