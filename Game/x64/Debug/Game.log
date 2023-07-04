@@ -1,2 +1,8 @@
 ﻿C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(531,5): warning MSB8028: 중간 디렉터리(x64\Debug\)에 다른 프로젝트(Game.vcxproj)에서 공유하는 파일이 포함되어 있습니다.  이로 인해 잘못된 정리 및 다시 빌드 동작이 수행될 수 있습니다.
+DirectXTex_Debug.lib(BC.obj) : warning LNK4099: '' PDB를 'DirectXTex_Debug.lib(BC.obj)' 또는 ''에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
+DirectXTex_Debug.lib(BC4BC5.obj) : warning LNK4099: '' PDB를 'DirectXTex_Debug.lib(BC4BC5.obj)' 또는 ''에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
+DirectXTex_Debug.lib(BC6HBC7.obj) : warning LNK4099: '' PDB를 'DirectXTex_Debug.lib(BC6HBC7.obj)' 또는 ''에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
+DirectXTex_Debug.lib(DirectXTexConvert.obj) : warning LNK4099: '' PDB를 'DirectXTex_Debug.lib(DirectXTexConvert.obj)' 또는 ''에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
+DirectXTex_Debug.lib(DirectXTexD3D12.obj) : warning LNK4099: '' PDB를 'DirectXTex_Debug.lib(DirectXTexD3D12.obj)' 또는 ''에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
+DirectXTex_Debug.lib(DirectXTexMipMaps.obj) : warning LNK4099: '' PDB를 'DirectXTex_Debug.lib(DirectXTexMipMaps.obj)' 또는 ''에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
   Game.vcxproj -> C:\Users\Hoon\GitHub\DX12_Study\Output\Client.exe

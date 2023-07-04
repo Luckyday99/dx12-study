@@ -86,7 +86,7 @@ void Mesh::Render()
 	// ¼¼ÆÃ ÈÄ TableDescHeap Ä¿¹Ô
 
 	{
-		CONSTANT_BUFFER(CONSTANT_BUFFER_TYPE::MATERIAL)->PushData(&_transform, sizeof(_transform));
+		CONSTANT_BUFFER(CONSTANT_BUFFER_TYPE::TRANSFORM)->PushData(&_transform, sizeof(_transform));
 
 		_material->Update();
 	}

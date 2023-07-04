@@ -50,7 +50,7 @@ VS_OUT VS_Main(VS_IN input)
     output.pos.y += float_1;
     output.pos.z += float_2;
 
-    // output.pos += offset0;
+    output.pos += offset0;
 
     output.color = input.color;
     output.uv = input.uv;

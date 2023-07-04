@@ -33,7 +33,7 @@ public:
 	void Update();
 
 private:
-	shared_ptr<Shader>	_shader;
-	MaterialParams		_params;
-	array<shared_ptr<Texture>, MATERIAL_TEXTURE_COUNT> _textures;
+	shared_ptr<Shader>										_shader;
+	MaterialParams											_params;
+	array<shared_ptr<Texture>, MATERIAL_TEXTURE_COUNT>		_textures;
 };
