@@ -81,16 +81,6 @@ void Mesh::Render()
 	CMD_LIST->IASetVertexBuffers(0, 1, &_vertexBufferView); // Slot: (0~15)
 	CMD_LIST->IASetIndexBuffer(&_indexBufferView);
 
-	// Buffer에 데이터 세팅
-	// TableDescHeap에 CBV 전송
-	// 세팅 후 TableDescHeap 커밋
-
-	{
-		CONSTANT_BUFFER(CONSTANT_BUFFER_TYPE::TRANSFORM)->PushData(&_transform, sizeof(_transform));
-
-		_material->Update();
-	}
-
 	GENGINE->GetTableDescHeap()->CommitTable();
 
 	CMD_LIST->DrawIndexedInstanced(_indexCount, 1, 0, 0, 0); // Instancing? 시 수정

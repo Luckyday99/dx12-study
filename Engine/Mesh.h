@@ -10,7 +10,6 @@ public:
 
 	void Init(const vector<Vertex>& vertexBuffer, const vector<uint32>& indexBuffer);
 
-	void SetTransform(const Transform transform) { _transform = transform; }
 	void SetMaterial(shared_ptr<Material> material) { _material = material; }
 
 	void Render();
@@ -36,6 +35,5 @@ private:
 	uint32 _indexSize = 0;
 
 	shared_ptr<Material>			_material = {};
-	Transform						_transform = {};
 };
 

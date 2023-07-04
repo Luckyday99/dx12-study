@@ -107,11 +107,6 @@ struct Vertex
 	Vec2 uv;	// UV
 };
 
-struct Transform
-{
-	Vec4 offset;
-};
-
 extern unique_ptr<class Engine> GENGINE;
 extern unique_ptr<class Input>	GINPUT;
 

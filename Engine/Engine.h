@@ -27,6 +27,7 @@ public:
 public:
 
 	void Update();
+	void LateUpdate();
 
 public:
 
@@ -67,7 +68,5 @@ private:
 	shared_ptr<DepthStencilBuffer>	_dsBuffer = make_shared<DepthStencilBuffer>();
 
 	shared_ptr<Timer>	_timer = make_shared<Timer>();
-
-	shared_ptr<Mesh> _mesh = make_shared<Mesh>();
 };
 

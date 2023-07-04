@@ -1,6 +1,10 @@
 #include "pch.h"
 #include "Engine.h"
+#include "GameObject.h"
+#include "Transform.h"
+#include "MeshRenderer.h"
 
+shared_ptr<GameObject> gameObject = make_shared<GameObject>();
 
 void Engine::Init(const WindowInfo& window)
 {
@@ -20,7 +24,7 @@ void Engine::Init(const WindowInfo& window)
 
 	_timer->Init();
 
-	CreateConstantBuffer(CBV_REGISTER::b0, sizeof(Transform), 256);
+	CreateConstantBuffer(CBV_REGISTER::b0, sizeof(TransformMat), 256);
 	CreateConstantBuffer(CBV_REGISTER::b1, sizeof(MaterialParams), 256);
 
 	// Create Mesh
@@ -58,11 +62,16 @@ void Engine::Init(const WindowInfo& window)
 		index.push_back(3);
 	}
 
-	_mesh->Init(vertex, index);
+	gameObject->Init();
+	shared_ptr<MeshRenderer> meshRenderer = make_shared<MeshRenderer>();
+
+	shared_ptr<Mesh> mesh = make_shared<Mesh>();
+	mesh->Init(vertex, index);
+	meshRenderer->SetMesh(mesh);
 
 	shared_ptr<Shader> shader = make_shared<Shader>();
-	shared_ptr<Texture> texture = make_shared<Texture>();
 	shader->Init(L"..\\Resources\\Shader\\default.hlsli");
+	shared_ptr<Texture> texture = make_shared<Texture>();
 	texture->Init(L"..\\Resources\\Texture\\Kitty.jpg");
 
 	shared_ptr<Material> material = make_shared<Material>();
@@ -71,7 +80,10 @@ void Engine::Init(const WindowInfo& window)
 	material->SetFloat(1, 0.4f);
 	material->SetFloat(2, 0.3f);
 	material->SetTexture(0, texture);
-	_mesh->SetMaterial(material);
+
+	meshRenderer->SetMaterial(material);
+
+	gameObject->AddComponent(meshRenderer);
 
 	GENGINE->GetCmdQueue()->WaitSync();
 
@@ -83,24 +95,7 @@ void Engine::Render()
 	RenderBegin();
 
 	// 렌더링 할 내용
-
-	{
-		static Transform t;
-		float speed = 1.f;
-
-		if (GINPUT->GetButton(KEY_TYPE::W))
-			t.offset.y += speed * DELTA_TIME;
-		if (GINPUT->GetButton(KEY_TYPE::S))
-			t.offset.y -= speed * DELTA_TIME;
-		if (GINPUT->GetButton(KEY_TYPE::D))
-			t.offset.x += speed * DELTA_TIME;
-		if (GINPUT->GetButton(KEY_TYPE::A))
-			t.offset.x -= speed * DELTA_TIME;
-
-		_mesh->SetTransform(t);
-
-		_mesh->Render();
-	}
+	gameObject->Update();
 
 	RenderEnd();
 }
@@ -111,6 +106,10 @@ void Engine::Update()
 	_timer->Update();
 
 	ShowFps();
+}
+
+void Engine::LateUpdate()
+{
 }
 
 void Engine::ResizeWindow(int32 width, int32 height)
