@@ -14,20 +14,17 @@
 #include "Shader.h"
 #include "Texture.h"
 
-#include "Input.h"
-#include "Timer.h"
-
 class Engine
 {
 public:
 
 	void Init(const WindowInfo& window);
-	void Render();
 
 public:
 
 	void Update();
-	void LateUpdate();
+
+	void Render();
 
 public:
 
@@ -38,8 +35,6 @@ public:
 	shared_ptr<DepthStencilBuffer> GetDSBuffer() { return _dsBuffer; }
 	shared_ptr<TableDescriptorHeap> GetTableDescHeap() { return _tableDescHeap; }
 	shared_ptr<ConstantBuffer>	GetCstBuffer(CONSTANT_BUFFER_TYPE type) { return _cstBuffers[static_cast<uint8>(type)]; }
-
-	shared_ptr<Timer> GetTimer() { return _timer; }
 
 public:
 
@@ -66,7 +61,5 @@ private:
 	vector<shared_ptr<ConstantBuffer>>		_cstBuffers = {};
 	shared_ptr<TableDescriptorHeap> _tableDescHeap = make_shared<TableDescriptorHeap>();
 	shared_ptr<DepthStencilBuffer>	_dsBuffer = make_shared<DepthStencilBuffer>();
-
-	shared_ptr<Timer>	_timer = make_shared<Timer>();
 };
 
